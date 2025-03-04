@@ -15,15 +15,20 @@ class Runner:
             fn = None
         save_model(model, fn)
 
-    def predict(self):
+    def predict(self, n = 10):
         model = load_model('models/model.h5')
-        n = 10
+        names = []
         for i in range(n):
             name = predict_name(model, self.max_len, self.encoding, self.decoding)
             if name in self.names:
                 continue
-            print(name)
+            names.append(name)
+        return names
 
 if __name__ == '__main__':
     r = Runner()
-    r.train()
+    #r.train()
+    names = r.predict(300)
+    with open('result.txt','w') as stream:
+        for name in names:
+            stream.write(name+"\n")
